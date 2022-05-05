@@ -1,11 +1,10 @@
-import express from 'express'
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const knexImport = require('knex')
-const knexfile = require('../knexfile.js')
-const posts = require('./routes/posts.js')
-const users = require('./routes/users.js')
+const knexfile = require('./knexfile.js')
+const posts = require('./src/routes/posts.js')
+const users = require('./src/routes/users.js')
 
 
 const app = express()
@@ -31,8 +30,8 @@ app.get('/', (req, res) => {
 
 
 //different routes
-app.use('api/users', users);
-app.use('api/posts', posts)
+app.use('/api/users', users);
+app.use('/api/posts', posts)
 
 
 app.listen(PORT, () => {
