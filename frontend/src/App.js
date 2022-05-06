@@ -1,42 +1,70 @@
 import './App.css';
-import {initializeApp} from 'firebase/app'
-import {getAuth, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
+import Header from './components/Header';
+import AllPosts from './components/AllPosts';
+import Login from './components/Login';
+import MyPosts from './components/MyPosts';
+import SignUp from './components/SignUp';
+import {initializeApp} from 'firebase/app';
+import {getAuth, GoogleAuthProvider, signInWithPopup, getIdToken} from "firebase/auth";
+import {useCookies} from 'react-cookie'
+import React, { useState, useEffect, createContext } from 'react';
+import {Routes, Route, useNavigate} from 'react-router-dom';
+import firebaseConfig from './firebaseConfig.json';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDtYQZf6k5JwljP6eFpFwoP2DjxikNtGKI",
-  authDomain: "rant-hub-be6be.firebaseapp.com",
-  projectId: "rant-hub-be6be",
-  storageBucket: "rant-hub-be6be.appspot.com",
-  messagingSenderId: "122825066424",
-  appId: "1:122825066424:web:27ea4899f3cf22dd0c714d",
-  measurementId: "G-4TTKRCFNP1"
-};
-
-const app = initializeApp(firebaseConfig);
+const authApp = initializeApp(firebaseConfig);
 //instance of the firebase app
-const auth = getAuth(app);
+const authInstance = getAuth(authApp);
 
 //everything below is a test
+
 
 const provider = new GoogleAuthProvider()
 
 
-const signInWithGoogle = () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      console.log(result)
-      console.log(result._tokenResponse.idToken)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-}
+export const AuthContext = createContext(null);
+//place all firebase stuff in another file like in shifty app
+//use useCookie to see if it works with the google button
+//the function below should send a post request to the backend
+
+// const signInWithGoogle = () => {
+//   signInWithPopup(authInstance, provider)
+//     .then((result) => {
+//       console.log(result)
+//       console.log(result._tokenResponse.idToken)
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//     })
+// }
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(['Rant-Hub'])
+
+  const contextVals = {
+    authInstance:authInstance, 
+    provider: provider,
+    authFunctions: {
+      getIdToken: getIdToken,
+      signInWithPopup: signInWithPopup(authInstance, provider)
+    },
+    cookie: {
+      cookies: cookies,
+      setCookie: setCookie,
+      removeCookie: removeCookie
+    }
+  }
+
   return (
-    <div className="sign_in">
-      <button onClick={signInWithGoogle}>Sign In With Google</button>
-      <p>{}</p>
+    <div className="App">
+      <AuthContext.Provider value={contextVals}>
+        <Header />
+        <Routes>
+          <Route path='/' element={<AllPosts />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/myposts' element={<MyPosts />} />
+          <Route path='/signup' element={<SignUp />} />
+        </Routes>
+      </AuthContext.Provider>
     </div>
   );
 }
