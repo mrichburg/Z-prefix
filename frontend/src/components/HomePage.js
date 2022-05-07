@@ -25,9 +25,21 @@ function Home() {
   const getPostData = () => {
     fetch('http://localhost:3001/api/posts')
     .then((data) => data.json())
-    .then((data) => set(data))
+    .then((data) => {
+      console.log('These are the posts pulled from the api :', data)
+      setPosts(data)
+    })
   }
 
+
+  const popUp = (post) =>{
+    
+    if(details && details.title === post.title){
+      setDetails()
+    }else{
+      setDetails(post)
+    }
+  }
 
 
 
@@ -35,6 +47,15 @@ function Home() {
     <>
       <Header />
       <div>Home</div>
+      <div className='homePage'>
+        {posts.map((post) => {
+          return <div className='post'>
+           Title: {post.title}
+            Content: {post.content}
+          </div>
+        }
+        )}
+      </div>
       <Outlet />
     
     </>
