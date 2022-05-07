@@ -1,69 +1,63 @@
 import './App.css';
-import Header from './components/Header';
-import AllPosts from './components/AllPosts';
+import HomePage from './components/HomePage';
 import Login from './components/Login';
 import MyPosts from './components/MyPosts';
-import SignUp from './components/SignUp';
-import {initializeApp} from 'firebase/app';
-import {getAuth, GoogleAuthProvider, signInWithPopup, getIdToken} from "firebase/auth";
-import {useCookies} from 'react-cookie'
+import MakePost from './components/MakePost';
+// import SignUp from './components/SignUp';
+// import {useCookies} from 'react-cookie'
 import React, { useState, useEffect, createContext } from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
-import firebaseConfig from './firebaseConfig.json';
+import {BrowserRouter as Router, Routes, Route, Link, useNavigate} from 'react-router-dom';
+// import {signOut} from 'firebase/auth'
+// import { auth } from './firebaseConfig.js' 
 
-const authApp = initializeApp(firebaseConfig);
-//instance of the firebase app
-const authInstance = getAuth(authApp);
-
-//everything below is a test
-
-
-const provider = new GoogleAuthProvider()
 
 
 export const AuthContext = createContext(null);
-//place all firebase stuff in another file like in shifty app
-//use useCookie to see if it works with the google button
-//the function below should send a post request to the backend
-
-// const signInWithGoogle = () => {
-//   signInWithPopup(authInstance, provider)
-//     .then((result) => {
-//       console.log(result)
-//       console.log(result._tokenResponse.idToken)
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//     })
-// }
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(['Rant-Hub'])
+  // const [cookies, setCookie, removeCookie] = useCookies(['Rant-Hub'])
+  
+  const [isAuth, setIsAuth] = useState(false);
+
+  // let navigate = useNavigate()
+
+  // const signOut = () => {
+  //   signOut(auth)
+  //   .then(() => {
+  //     localStorage.clear()
+  //     setIsAuth(false)
+  //     navigate("/")
+  //   })
+//import auth from firebase config??
+  //}
 
   const contextVals = {
-    authInstance:authInstance, 
-    provider: provider,
-    authFunctions: {
+    isAuth: isAuth,
+    setIsAuth: setIsAuth,
+    /*authFunctions: {
       getIdToken: getIdToken,
-      signInWithPopup: signInWithPopup(authInstance, provider)
     },
-    cookie: {
+      cookie: {
       cookies: cookies,
       setCookie: setCookie,
       removeCookie: removeCookie
     }
+    */
   }
 
   return (
+
     <div className="App">
       <AuthContext.Provider value={contextVals}>
-        <Header />
-        <Routes>
-          <Route path='/' element={<AllPosts />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/myposts' element={<MyPosts />} />
-          <Route path='/signup' element={<SignUp />} />
-        </Routes>
+        <Router>
+          <Routes>
+            <Route path='/' element={<HomePage  />} >
+              <Route path='/login' element={<Login />} />
+              <Route path='/myposts' element={<MyPosts />} />
+              <Route path='/makepost' element={<MakePost />} />
+            </Route>
+          </Routes>
+        </Router>
       </AuthContext.Provider>
     </div>
   );

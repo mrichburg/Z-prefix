@@ -1,59 +1,81 @@
-// import './App.css';
-// import {initializeApp} from 'firebase/app'
-// import {getAuth, GoogleAuthProvider, signInWithPopup, getIdToken} from "firebase/auth"
 
-// import firebaseConfig from './firebaseConfig/json'
+import React from 'react';
+import {useContext} from 'react'
+import { AuthContext } from "../App.js";
+import {useNavigate} from 'react-router-dom'
+import { auth, provider } from '../firebaseConfig.js' 
+import { signInWithPopup} from 'firebase/auth'
 
-// const authApp = initializeApp(firebaseConfig);
-// //instance of the firebase app
-// const authInstance = getAuth(authApp);
+function Login() {
 
-// //everything below is a test
-// import {useCookies} from 'react-cookie'
-// import { useState, useEffect, createContext } from 'react';
-// import {Routes, Route, useNavigate} from 'react-router-dom';
+  const context = useContext(AuthContext);
 
-// const provider = new GoogleAuthProvider()
+    let navigate = useNavigate();
+
+    const googleLogin = () => {
+      signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result)
+        // console.log(result._tokenResponse.idToken)
+        let info = result._tokenResponse
+
+        localStorage.setItem("isAuth", true)
+        localStorage.setItem("firstName", info.firstName)
+        localStorage.setItem("lastName", info.lastName)
+        localStorage.setItem("email", info.email)
+        localStorage.setItem("token", info.localId)
+        context.setIsAuth(true)
+
+        fetch(`http://localhost:3001/api/users/token/${info.localId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('this is the data from the api:', data)
+          console.log(Array.isArray(data))
+          data[0] ? console.log('this is the token:', data[0].token) : console.log('no data')
+          if(data[0] && data[0].token === info.localId){
+            return navigate('/')
+          }else{
+            let newProfile = {
+              first_name: info.firstName,
+              last_name: info.lastName,
+              email: info.email,
+              token: info.localId              
+            }
+
+            let request = {
+              method: 'POST',
+              headers: {
+                'Content-Type' : 'application/json'
+              },
+              body: JSON.stringify(newProfile)
+            }
+            fetch(`http://localhost:3001/api/users`, request)
+            .then(() => navigate('/'))
+          }
+        })
+        // navigate("/")
+      })
+    }
+
+  return (
+  <>
+    <div className='loginPage'>
+      <p>Login with Google to continue</p>
+      <button className="login-with-google-btn" onClick={googleLogin}>
+        Login with Google
+      </button>
+    </div>
+  </>
+
+  )
+}
+{/* <p>Don't have a google account? Create one <a href='https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp'>here</a></p> */}
+
+//<a href='https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp'> click here </a>
+//<div>This website uses google authentication for it's users. In order to create an account</div>
+
+export default Login; 
 
 
-// export const AuthContext = createContext(null);
-// //place all firebase stuff in another file like in shifty app
-// //use useCookie to see if it works with the google button
-// //the function below should send a post request to the backend
 
-// const signInWithGoogle = () => {
-//   signInWithPopup(authInstance, provider)
-//     .then((result) => {
-//       console.log(result)
-//       console.log(result._tokenResponse.idToken)
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//     })
-// }
-
-// function App() {
-//   const [cookies, setCookie, removeCookie] = useCookies(['Rant-Hub'])
-
-//   const contextVals = {
-//     authInstance:authInstance, 
-//     authFunctions: {
-//       signInWithGoogle: signInWithGoogle,
-//       getIdToken: getIdToken
-//     },
-//     cookie: {
-//       cookies: cookies,
-//       setCookie: setCookie,
-//       removeCookie: removeCookie
-//     }
-//   }
-
-//   return (
-//     <div className="app">
-//       <button onClick={signInWithGoogle}>Sign In With Google</button>
-//       <p>{}</p>
-//     </div>
-//   );
-// }
-
-// export default App;
+// 

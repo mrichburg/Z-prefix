@@ -50,14 +50,26 @@ router.patch('/', (req, res) => {
 });
     
 
+router.get('/token/:token', (req, res) => {
+  console.log(req.body)
+  knex('users')
+    .where('token', req.params.token)
+    .then(data => res.json(data))
+})
 
 
 router.get('/:id', (req, res) => {
   console.log(req.body)
   knex('users')
     .where('id', req.params.id)
-    .then(data => res.json(data))
+    .then(data => {
+      console.log(req.params.id)
+      console.log(req.params)
+      res.json(data)
+    })
 })
+
+
 
 router.delete('/:id', (req, res) => {
   console.log(req.body)
