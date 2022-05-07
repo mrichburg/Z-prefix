@@ -17,11 +17,12 @@ router.get('/', (req, res) => {
     .select('*')
     .then(data => res.json(data))
     .catch(err => 
-      res.status(404).json({
+      {res.status(404).json({
         message:
         'The data you are looking for could not be found. Please try again later.'
       })
-  );
+      console.error(err)
+    });
     //create the page for all users data
 
 })

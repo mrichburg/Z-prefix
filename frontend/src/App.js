@@ -10,7 +10,7 @@ import {BrowserRouter as Router, Routes, Route, Link, useNavigate} from 'react-r
 // import {signOut} from 'firebase/auth'
 // import { auth } from './firebaseConfig.js' 
 
-
+export const apiURL = `https://rant-hub-backend.herokuapp.com/`
 
 export const AuthContext = createContext(null);
 

@@ -37,13 +37,20 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   },
+  
 
   production: {
     client: 'postgresql',
     connection: {
       database: 'my_db',
-      user:     'username',
-      password: 'password'
+      user:     'zromctcnuakpae',
+      password: '81212d14772560f4d488b41855c4b2f451710aeaab3f39889984818fba0b11db',
+      host: 'ec2-18-210-64-223.compute-1.amazonaws.com',
+      port: 5432,
+      database: 'de80s88alobo1f',
+      ssl: {
+        rejectUnauthorized: false
+      }
     },
     pool: {
       min: 2,

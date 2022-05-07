@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 //add useNavigate and place in the onsubmit method
 import {useNavigate} from 'react-router-dom';
 import {useContext} from 'react'
-import { AuthContext } from "../App.js";
+import { AuthContext, apiURL } from "../App.js";
 
 
 
@@ -36,7 +36,7 @@ function MakePost() {
     let title = event.target.title.value
     let content = event.target.content.value
 
-    fetch(`http://localhost:3001/api/users/token/${localStorage.getItem('token')}`)
+    fetch(`${apiURL}/api/users/token/${localStorage.getItem('token')}`)
     .then((res) => res.json())
     .then(data =>{
 
@@ -54,7 +54,7 @@ function MakePost() {
         body: JSON.stringify(newPost)
       }
   
-      fetch('http://localhost:3001/api/posts', request)
+      fetch(`${apiURL}/api/posts`, request)
       .then(() => {
         navigate('/')
       })

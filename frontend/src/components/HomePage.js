@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react';
 import Header from './Header'
 import {Outlet} from 'react-router-dom'
 import {useContext} from 'react'
-import { AuthContext } from "../App.js";
+import { AuthContext, apiURL } from "../App.js";
 import {useNavigate} from 'react-router-dom'
 import { auth, provider } from '../firebaseConfig.js' 
+
 
 function Home() {
 
@@ -23,7 +24,7 @@ function Home() {
 
 
   const getPostData = () => {
-    fetch('http://localhost:3001/api/posts')
+    fetch(`${apiURL}/api/posts`)
     .then((data) => data.json())
     .then((data) => {
       console.log('These are the posts pulled from the api :', data)
