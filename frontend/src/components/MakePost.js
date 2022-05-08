@@ -80,7 +80,7 @@ function MakePost() {
           <label> Post: </label>
           <textarea type='text' name='content' id='content' placeholder='Post...' />
         </div>
-        <input type='submit' id='submit' value='Submit Post'/>
+        <input type='submit' name='submit' id='submit' value='Submit Post'/>
       </form>
     </div>
   </div>

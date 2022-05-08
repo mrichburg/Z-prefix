@@ -25,10 +25,14 @@ const Header = () => {
       <div className='header' id='header'>
         <Link to='/'>HomePage</Link>
         {/* Below is the logic I will use to hide things from unauthenticated users */}
-        {!context.isAuth ? <Link to='/login'>Login</Link> : 
+        {!context.isAuth ? <Link to='/login'>Login</Link>
+        
+        : 
+        
         <>
           <button className='logout' onClick={LogOut}>LogOut</button>
           <Link to='/makepost'>Make Post</Link>
+          <Link to='/myposts'>My Posts</Link>
         </> }
         
       </div>

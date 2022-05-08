@@ -1,8 +1,230 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {Outlet} from 'react-router-dom'
+import {useContext} from 'react'
+import { AuthContext, apiURL } from "../App.js";
+import {useNavigate} from 'react-router-dom'
+import { auth, provider } from '../firebaseConfig.js' 
+import '../App.css';
+// import { post } from '../../../backend/src/routes/users.js';
 
-function MyPosts() {
-  return <div>post</div>
+
+
+
+function Home() {
+
+
+  const [posts, setPosts] = useState([])
+  const [details, setDetails] = useState(false)
+  const [update, setUpdate] = useState(false)
+  // const [title, setTitle] = useState("")
+  // const [content, setContent] = useState("")
+
+
+  //fetch user info via token 
+  //grab results.id
+  //fetch for posts @ `${apiURL}api/users/:user_id`
+  
+
+
+
+
+  useEffect(() => {
+    getPostData()
+  }, [])
+
+
+  const getPostData = () => {
+    fetch(`${apiURL}api/users/token/${localStorage.getItem('token')}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('this is the data from the api:', data)
+          console.log(Array.isArray(data))
+          console.log(data[0].id) //point of failure
+          fetch(`${apiURL}api/posts/${data[0].id}`)
+          .then((data) => data.json())
+          .then((data) =>{
+            setPosts(data)
+          })
+        })
+        
+  }
+
+//opens pop up
+  const popUp = (post) =>{
+
+    if(!details ){
+      setDetails(post)
+      localStorage.setItem('title', post.title)
+      localStorage.setItem('content', post.content)
+      
+    }
+  }
+
+  //closes pop up
+  const handleClose =(event) => {
+    event.preventDefault()
+    if(details){
+      setUpdate(false)
+      setDetails(false)
+      localStorage.removeItem('title')
+      localStorage.removeItem('content')
+    } 
+  }
+
+  const handleDelete = (event) => {
+    event.preventDefault()
+
+    let deletePost = {
+      id: details.id
+    }
+
+    let request = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify(deletePost)
+    }
+
+    fetch(`${apiURL}api/posts`, request)
+    .then(() => {
+      setUpdate()
+      setDetails()
+      localStorage.removeItem('title')
+      localStorage.removeItem('content')
+      getPostData()
+    })
+  }
+
+
+  const openUpdate = (event) => {
+    event.preventDefault()
+    if(!update){
+      setUpdate(true)
+    }
+  }
+  const closeUpdate = (event) => {
+    event.preventDefault()
+    if(update){
+      setUpdate()
+    }
+  }
+
+
+  const handleUpdate = (event) => {
+    event.preventDefault()
+
+
+    let updatePost = {
+      id: details.id, 
+      user_id : details.user_id,
+      title: document.getElementById('postTitle').value,
+      content: document.getElementById('postContent').value,
+      name: details.name
+    }
+
+    let request = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify(updatePost)
+    }
+
+    fetch(`${apiURL}api/posts`, request)
+    .then(() => {
+      console.log('Post has been updated!!')
+      setUpdate()
+      setDetails()
+      localStorage.removeItem('title')
+      localStorage.removeItem('content')
+      getPostData()
+    })
+    
+  }
+
+
+  const rmvAttributes = () => {
+
+    document.getElementById('postTitle').removeAttribute("disabled")
+    document.getElementById('postContent').removeAttribute("disabled")
+  }
+
+
+
+
+  return(
+    <>    
+
+    {details ?
+      <>
+        {/*if details (you clicked on the div) then show pop up
+        if post.name === local storage name (post was made by user) you can edit or delete the post*/}
+        
+        
+        <form onSubmit={handleUpdate} className='popUp'>
+          <div className='inputGp'>
+            <label> Title: </label>
+            <input type='text' name='postTitle' id='postTitle' defaultValue={localStorage.getItem('title')} disabled></input>
+          </div>
+          <div className='inputGp'>
+            <label> Post: </label>
+            <textarea type='text' name='postContent' id='postContent' defaultValue={localStorage.getItem('content')} disabled></textarea>
+          </div>
+
+          <button className='button' onClick={handleClose}>CLOSE</button>
+          
+          
+          {details.name === localStorage.getItem('firstName') ?
+            <div className='popUpButtons'>
+              {console.log('these are the details:', details)}
+              <button className='button' onClick={openUpdate}>EDIT</button>
+              <button className='button' onClick={handleDelete}>DELETE</button>
+
+                  {update ? 
+                    //When you click the update button, remove disabled attributes
+                    <>
+                    {rmvAttributes()}
+                    <input className='button' type='submit' name='update' id='update' value='UPDATE' />
+                    <button className='button' onClick={closeUpdate}>BACK</button>
+                    </>
+                    :
+                    ''
+                  }
+            </div>
+            :
+            //will not see buttons
+            ''
+          }
+        </form>
+      </>
+        :
+        //will not see pop up
+        ''
+        
+    }
+
+      <div>My Posts</div>
+      <div className='homePage'>
+        {posts.map((post) => {
+          return (
+            <div className='post' key={post.id} onClick={() => popUp(post)}>
+              <div className='postHeader'>
+                
+                <div className='title'><h1>{post.title}</h1></div>
+              </div>
+              <div className='postTextContainer'> {post.content} </div>
+              <h3> @{ post.name } </h3>
+              <div> { post.date } </div>
+            </div>
+          );
+        })}
+      </div>
+    
+    </>
+    
+  ) 
 }
 
 
-export default MyPosts; 
+export default Home; 
