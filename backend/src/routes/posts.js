@@ -47,6 +47,13 @@ router.get('/:user_id', (req, res) => {
     .then(data => res.json(data))
 })
 
+//shows an individual post based off id
+router.get('/id', (req, res) => {
+  knex('posts')
+    .where('id', req.params.id)
+    .then(data => res.json(data))
+})
+
 //deletes a post (if the user_id matches the id of the user)
 router.delete('/', (req, res) => {
   console.log(req.body)

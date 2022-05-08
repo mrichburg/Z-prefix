@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "knex migrate:rollback && knex migrate:latest && knex seed:run" ,
     "start": "nodemon index.js"
   },
   "keywords": [],

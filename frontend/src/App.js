@@ -3,6 +3,7 @@ import HomePage from './components/HomePage';
 import Login from './components/Login';
 import MyPosts from './components/MyPosts';
 import MakePost from './components/MakePost';
+import Header from './components/Header'
 // import SignUp from './components/SignUp';
 // import {useCookies} from 'react-cookie'
 import React, { useState, useEffect, createContext } from 'react';
@@ -50,12 +51,12 @@ function App() {
     <div className="App">
       <AuthContext.Provider value={contextVals}>
         <Router>
+          <Header />
           <Routes>
-            <Route path='/' element={<HomePage  />} >
+              <Route path='/' element={<HomePage  />} />
               <Route path='/login' element={<Login />} />
               <Route path='/myposts' element={<MyPosts />} />
               <Route path='/makepost' element={<MakePost />} />
-            </Route>
           </Routes>
         </Router>
       </AuthContext.Provider>

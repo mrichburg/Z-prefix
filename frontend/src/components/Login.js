@@ -1,4 +1,4 @@
-
+import '../App.css';
 import React from 'react';
 import {useContext} from 'react'
 import { AuthContext, apiURL } from "../App.js";
@@ -26,7 +26,7 @@ function Login() {
         localStorage.setItem("token", info.localId)
         context.setIsAuth(true)
 
-        fetch(`${apiURL}/api/users/token/${info.localId}`)
+        fetch(`${apiURL}api/users/token/${info.localId}`)
         .then((response) => response.json())
         .then((data) => {
           console.log('this is the data from the api:', data)
@@ -49,7 +49,7 @@ function Login() {
               },
               body: JSON.stringify(newProfile)
             }
-            fetch(`${apiURL}/api/users`, request)
+            fetch(`${apiURL}api/users`, request)
             .then(() => navigate('/'))
           }
         })

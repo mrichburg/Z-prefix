@@ -36,14 +36,15 @@ function MakePost() {
     let title = event.target.title.value
     let content = event.target.content.value
 
-    fetch(`${apiURL}/api/users/token/${localStorage.getItem('token')}`)
+    fetch(`${apiURL}api/users/token/${localStorage.getItem('token')}`)
     .then((res) => res.json())
     .then(data =>{
 
       let newPost = {
         user_id: data[0].id,
         title: title,
-        content: content
+        content: content, 
+        name: localStorage.getItem('firstName')
       }
   
       let request = {
@@ -54,7 +55,7 @@ function MakePost() {
         body: JSON.stringify(newPost)
       }
   
-      fetch(`${apiURL}/api/posts`, request)
+      fetch(`${apiURL}api/posts`, request)
       .then(() => {
         navigate('/')
       })
@@ -77,7 +78,7 @@ function MakePost() {
         </div>
         <div className='inputGp'>
           <label> Post: </label>
-          <input type='text' name='content' id='content' placeholder='Post...' />
+          <textarea type='text' name='content' id='content' placeholder='Post...' />
         </div>
         <input type='submit' id='submit' value='Submit Post'/>
       </form>

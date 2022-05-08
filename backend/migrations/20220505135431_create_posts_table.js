@@ -9,6 +9,8 @@
     table.foreign('user_id').references('users.id');
     table.string('title', 100);
     table.text('content');
+    table.string('name', 100);
+    table.timestamp('date').notNullable().index().defaultTo(knex.raw('now()'));
   })
 };
 
@@ -22,3 +24,4 @@ exports.down = function(knex) {
   })
   .then(() => knex.schema.dropTableIfExists('posts'))
 };
+

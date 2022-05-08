@@ -50,7 +50,7 @@ router.patch('/', (req, res) => {
     .then(data => res.status(200).json(data));
 });
     
-
+//grab a user with a specific token
 router.get('/token/:token', (req, res) => {
   console.log(req.body)
   knex('users')
@@ -59,6 +59,7 @@ router.get('/token/:token', (req, res) => {
 })
 
 
+//grabs a user with the specified id
 router.get('/:id', (req, res) => {
   console.log(req.body)
   knex('users')

@@ -5,7 +5,7 @@ import {useContext} from 'react'
 import { AuthContext } from "../App.js";
 import {signOut} from 'firebase/auth';
 import { auth } from '../firebaseConfig.js' 
-//import a css file
+
 
 const Header = () => {
   const context = useContext(AuthContext);
