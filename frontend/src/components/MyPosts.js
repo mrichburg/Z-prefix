@@ -106,6 +106,8 @@ function Home() {
   const closeUpdate = (event) => {
     event.preventDefault()
     if(update){
+      document.getElementById('postTitle').setAttribute("readOnly", "")
+      document.getElementById('postContent').setAttribute("readOnly", "")
       setUpdate()
     }
   }
@@ -146,8 +148,8 @@ function Home() {
 
   const rmvAttributes = () => {
 
-    document.getElementById('postTitle').removeAttribute("disabled")
-    document.getElementById('postContent').removeAttribute("disabled")
+    document.getElementById('postTitle').removeAttribute("readOnly")
+    document.getElementById('postContent').removeAttribute("readOnly")
   }
 
 
@@ -161,42 +163,46 @@ function Home() {
         {/*if details (you clicked on the div) then show pop up
         if post.name === local storage name (post was made by user) you can edit or delete the post*/}
         
-        
-        <form onSubmit={handleUpdate} className='popUp'>
-          <div className='inputGp'>
-            <label> Title: </label>
-            <input type='text' name='postTitle' id='postTitle' defaultValue={localStorage.getItem('title')} disabled></input>
-          </div>
-          <div className='inputGp'>
-            <label> Post: </label>
-            <textarea type='text' name='postContent' id='postContent' defaultValue={localStorage.getItem('content')} disabled></textarea>
-          </div>
+        <div className='popUpContainer'>
+          <div className='postDetails'>
+            <h1>Post Details</h1>
+              <form onSubmit={handleUpdate} className='popUp'>
+                <div className='formGroup'>
+                  <label> Title: </label>
+                  <input type='text' name='postTitle' id='postTitle' defaultValue={localStorage.getItem('title')} readOnly></input>
+                </div>
+                <div className='formGroup'>
+                <label className='thing'> Post: </label>
+                  <textarea type='text' name='postContent' id='postContent' defaultValue={localStorage.getItem('content')} readOnly></textarea>
+                </div>
 
-          <button className='button' onClick={handleClose}>CLOSE</button>
-          
-          
-          {details.name === localStorage.getItem('firstName') ?
-            <div className='popUpButtons'>
-              {console.log('these are the details:', details)}
-              <button className='button' onClick={openUpdate}>EDIT</button>
-              <button className='button' onClick={handleDelete}>DELETE</button>
+                <button className='button' onClick={handleClose}>CLOSE</button>
+                
+                
+                {details.name === localStorage.getItem('firstName') ?
+                  <div className='popUpButtons'>
+                    {console.log('these are the details:', details)}
+                    <button className='button' onClick={openUpdate}>EDIT</button>
+                    <button className='button' onClick={handleDelete}>DELETE</button>
 
-                  {update ? 
-                    //When you click the update button, remove disabled attributes
-                    <>
-                    {rmvAttributes()}
-                    <input className='button' type='submit' name='update' id='update' value='UPDATE' />
-                    <button className='button' onClick={closeUpdate}>BACK</button>
-                    </>
-                    :
-                    ''
-                  }
-            </div>
-            :
-            //will not see buttons
-            ''
-          }
-        </form>
+                        {update ? 
+                          //When you click the update button, remove disabled attributes
+                          <>
+                          {rmvAttributes()}
+                          <input className='button' type='submit' name='update' id='update' value='UPDATE' />
+                          <button className='button' onClick={closeUpdate}>BACK</button>
+                          </>
+                          :
+                          ''
+                        }
+                  </div>
+                  :
+                  //will not see buttons
+                  ''
+                }
+              </form>
+          </div>
+        </div>
       </>
         :
         //will not see pop up
@@ -204,7 +210,6 @@ function Home() {
         
     }
 
-      <div>My Posts</div>
       <div className='homePage'>
         {posts.map((post) => {
           return (
@@ -214,8 +219,10 @@ function Home() {
                 <div className='title'><h1>{post.title}</h1></div>
               </div>
               <div className='postTextContainer'> {post.content} </div>
-              <h3> @{ post.name } </h3>
-              <div> { post.date } </div>
+              <div className='postFooter'>
+                <strong>@{ post.name }</strong> 
+                 { post.date }
+              </div>
             </div>
           );
         })}

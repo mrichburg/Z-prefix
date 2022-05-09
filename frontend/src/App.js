@@ -18,7 +18,7 @@ export const AuthContext = createContext(null);
 function App() {
   // const [cookies, setCookie, removeCookie] = useCookies(['Rant-Hub'])
   
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(localStorage.getItem('isAuth'));
 
   // let navigate = useNavigate()
 

@@ -23,6 +23,11 @@ const Header = () => {
 
   return(
       <div className='header' id='header'>
+          <h1>
+              Rant-Hub
+          </h1>
+          <img src='https://socialpractices20-21.hotglue.me/?start.head.161369568048' />
+
         <Link to='/'>HomePage</Link>
         {/* Below is the logic I will use to hide things from unauthenticated users */}
         {!context.isAuth ? <Link to='/login'>Login</Link>

@@ -57,7 +57,7 @@ function MakePost() {
   
       fetch(`${apiURL}api/posts`, request)
       .then(() => {
-        navigate('/')
+        navigate('/myposts')
       })
 
       })    
@@ -66,19 +66,19 @@ function MakePost() {
   return(
 
 
-  <div className="createPostPage">
+  <div className="homePage">
     {""}
-    <div className='cpContainer'>
-      <h1>Create A Post</h1>
+    <div className='postDetails'>
+      <h1>Make a Rant!</h1>
       {/* Here is where you create a form, then on submit, send a post request to the database */}
-      <form onSubmit={handleSubmit}>
-        <div className='inputGp'>
+      <form onSubmit={handleSubmit}className='popUp'>
+        <div className='formGroup' >
           <label> Title: </label>
           <input type='text' name='title' id='title' placeholder="Title..." />
         </div>
-        <div className='inputGp'>
-          <label> Post: </label>
-          <textarea type='text' name='content' id='content' placeholder='Post...' />
+        <div className='formGroup'>
+          <label className='thing'> Post: </label>
+          <textarea type='text' name='content' id='content' placeholder='What ticked you off today?' />
         </div>
         <input type='submit' name='submit' id='submit' value='Submit Post'/>
       </form>

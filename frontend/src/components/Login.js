@@ -33,7 +33,7 @@ function Login() {
           console.log(Array.isArray(data))
           data[0] ? console.log('this is the token:', data[0].token) : console.log('no data')
           if(data[0] && data[0].token === info.localId){
-            return navigate('/')
+            return navigate('/myposts')
           }else{
             let newProfile = {
               first_name: info.firstName,
@@ -60,16 +60,17 @@ function Login() {
   return (
   <>
     <div className='loginPage'>
-      <p>Login with Google or create a Google Account!</p>
-      <button className="login-with-google-btn" onClick={googleLogin}>
-        Login with Google Account!
-      </button>
-      <p>Create a Google Account!</p>
-      <a href='https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp' target="_blank">
-      <button className="login-with-google-btn" >
-        Create a Google Account!
-      </button>
-      </a>
+      <div className='googleDiv'>
+        <button className="login-with-google-btn" onClick={googleLogin}>
+          Login with Google Account!
+        </button>
+        <p>Or...</p>
+        <a href='https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp' target="_blank">
+        <button className="login-with-google-btn" >
+          Create a Google Account!
+        </button>
+        </a>
+      </div>
     </div>
   </>
 

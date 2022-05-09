@@ -3,6 +3,7 @@
 }
 
 
+
 body {
   padding: 0%;
   margin: 0%;
@@ -13,20 +14,50 @@ body {
   margin: 0;
   width: 100%;
   height: 80px;
-  background-color: black;
+  background-color: rgb(158, 18, 18);
   display: flex;
   justify-content: center;
+  flex-direction: row;
+  padding: 5px;
   align-items: center;
   color: white;
   text-decoration: none;
 }
 
+/* #header a, #header button :hover{
+  background: rgba(165, 148, 148, 0.275);
+} */
+
+.header h1{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  left: 15px;
+  top: center ;
+
+}
+
+.header img{
+  position: absolute;
+  height: 10%;
+  left: 165px;
+  top: -5px;
+
+}
+
 a {
   color: white;
   text-decoration: none;
-  margin: 10px;
+  margin: 25px;
   font-size: 25px;
+  transform: 0.3s;
 }
+
+a :hover{
+  transform: scale(1.1);
+}
+
+
 
 .logout {
   color: white;
@@ -40,63 +71,122 @@ a {
   cursor: pointer;
 }
 
-.createPostPage {
+
+.popUpContainer{
   width: 100%;
-  height: calc(100vh - 80px);
-  display: grid;
-  place-items: center;
+  height: 100%;
+  justify-content: center;
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-.cpContainer {
+.postDetails {
+  position: relative;
   width: 500px;
-  height: auto;
-  padding: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0;
   background-color: black;
   border-radius: 12px;
   color: white;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  top: 115px;
 }
 
-.cpContainer h1 {
+.popUp{
+  padding-top: 0;
+
+}
+
+
+.popUpButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.popUpButtons .button {
+  height: 40px;
+  width: 90px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+
+
+.popUp label{
+  text-align: left;
+}
+
+.postDetails h1 {
   text-align: center;
 }
 
-.cpContainer label {
+.postDetails label {
   font-size: 25px;
 }
-.cpContainer .inputGp {
-  margin-top: 30px;
+.postDetails .formGroup {
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
 }
 
-.inputGp input,
-.inputGp textarea {
+ .postFooter {
+  display: flex;
+  justify-content: space-between;
+} 
+ .postFooter {
+  font-size: 20px;
+  margin-top: 30px;
+} 
+
+/* .postFooter div{
+  
+} */
+
+.formGroup input,
+.formGroup textarea {
   font-size: 18px;
   border: none;
   border-radius: 2px;
   padding: 5px;
 }
 
-.inputGp input {
+.formGroup input {
   height: 40px;
 }
-.inputGp textarea {
+.formGroup textarea {
   height: 150px;
+  display: block;
+  overflow: auto; 
 }
 
-.cpContainer button, .cpContainer #submit , .button{
+.postDetails button, .postDetails #submit , .button{
   margin-top: 20px;
   height: 40px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 18px;
+  margin-bottom: 10px;
 }
+
+.postDetails .formGroup .thing{
+  margin-top: 25px;
+}
+
 input,
 textarea {
   margin-top: 5px;
+  display: block;
+  overflow: auto; 
 }
 
 .loginPage {
@@ -106,10 +196,19 @@ textarea {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #757575;
 }
 
 .loginPage p {
   font-size: 30px;
+  padding: 15px;
+}
+
+.googleDiv{
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  padding: 20px;
+  outline: 5px solid black;
 }
 
 /* GOOGLE BUTTOn */
@@ -156,6 +255,7 @@ textarea {
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
+  background-color: #757575;
 }
 
 .homePage .post {
@@ -185,13 +285,6 @@ textarea {
   align-items: flex-end;
 }
 
-.deletePost button {
-  border: none;
-
-  background: none;
-  font-size: 30px;
-  cursor: pointer;
-}
 
 .post .postTextContainer {
   word-wrap: break-word;
