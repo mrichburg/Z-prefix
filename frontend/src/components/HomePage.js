@@ -148,6 +148,7 @@ function Home() {
         {/*if details (you clicked on the div) then show pop up
         if post.name === local storage name (post was made by user) you can edit or delete the post*/}
       <div className='popUpContainer'>
+        <div>All Posts</div>
         <div className='postDetails'>
           <h1>Post Details</h1>
           <form onSubmit={handleUpdate} className='popUp'>
