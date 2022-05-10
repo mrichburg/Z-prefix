@@ -28,14 +28,14 @@ const Header = () => {
           </h1>
           <img src='https://socialpractices20-21.hotglue.me/?start.head.161369568048' />
 
-        <Link to='/'>HomePage</Link>
+        <Link to='/'>Home</Link>
         {/* Below is the logic I will use to hide things from unauthenticated users */}
         {!context.isAuth ? <Link to='/login'>Login</Link>
         
         : 
         
         <>
-          <button className='logout' onClick={LogOut}>LogOut</button>
+          <button className='logout' onClick={LogOut}>Log Out</button>
           <Link to='/makepost'>Make Post</Link>
           <Link to='/myposts'>My Posts</Link>
         </> }
