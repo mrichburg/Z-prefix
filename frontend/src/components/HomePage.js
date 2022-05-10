@@ -1,11 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {Outlet} from 'react-router-dom'
-import {useContext} from 'react'
-import { AuthContext, apiURL } from "../App.js";
-import {useNavigate} from 'react-router-dom'
-import { auth, provider } from '../firebaseConfig.js' 
+import { apiURL } from "../App.js";
 import '../App.css';
-// import { post } from '../../../backend/src/routes/users.js';
+
 
 
 
@@ -16,8 +12,7 @@ function Home() {
   const [posts, setPosts] = useState([])
   const [details, setDetails] = useState(false)
   const [update, setUpdate] = useState(false)
-  // const [title, setTitle] = useState("")
-  // const [content, setContent] = useState("")
+
 
 
   useEffect(() => {
@@ -29,7 +24,6 @@ function Home() {
     fetch(`${apiURL}api/posts`)
     .then((data) => data.json())
     .then((data) => {
-      // console.log('These are the posts pulled from the api :', data)
       setPosts(data)
     })
   }
@@ -145,8 +139,7 @@ function Home() {
 
     {details ?
       <>
-        {/*if details (you clicked on the div) then show pop up
-        if post.name === local storage name (post was made by user) you can edit or delete the post*/}
+        
       <div className='popUpContainer'>
         <div>All Posts</div>
         <div className='postDetails'>
@@ -166,7 +159,6 @@ function Home() {
             
             {details.name === localStorage.getItem('firstName') ?
               <div className='popUpButtons'>
-                {console.log('these are the details:', details)}
                 <button className='button' onClick={openUpdate}>EDIT</button>
                 <button className='button' onClick={handleDelete}>DELETE</button>
 
@@ -197,21 +189,23 @@ function Home() {
 
       
       <div className='homePage'>
-        {posts.map((post) => {
-          return (
-            <div className='post' key={post.id} onClick={() => popUp(post)}>
-              <div className='postHeader'>
-                
-                <div className='title'><h1>{post.title}</h1></div>
+        <div className='postColumn'>
+          {posts.map((post) => {
+            return (
+              <div className='post' key={post.id} onClick={() => popUp(post)}>
+                <div className='postHeader'>
+                  
+                  <div className='title'><h1>{post.title}</h1></div>
+                </div>
+                <div className='postTextContainer'> {post.content} </div>
+                <div className='postFooter'>
+                  <strong>@{ post.name }</strong> 
+                  { post.date }
+                </div>
               </div>
-              <div className='postTextContainer'> {post.content} </div>
-              <div className='postFooter'>
-                <strong>@{ post.name }</strong> 
-                 { post.date }
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     
     </>

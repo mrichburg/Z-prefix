@@ -1,10 +1,10 @@
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import '../App.css';
 import {useContext} from 'react'
 import { AuthContext } from "../App.js";
 import {signOut} from 'firebase/auth';
 import { auth } from '../firebaseConfig.js' 
+import '../App.css';
 
 
 const Header = () => {

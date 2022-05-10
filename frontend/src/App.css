@@ -71,6 +71,11 @@ a :hover{
   cursor: pointer;
 }
 
+.postColumn{
+  display: flex;
+  justify-content: center;
+  flex-direction: column-reverse;
+}
 
 .popUpContainer{
   width: 100%;

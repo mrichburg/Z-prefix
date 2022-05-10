@@ -15,7 +15,7 @@ function Login() {
     const googleLogin = () => {
       signInWithPopup(auth, provider)
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         // console.log(result._tokenResponse.idToken)
         let info = result._tokenResponse
 
@@ -29,9 +29,9 @@ function Login() {
         fetch(`${apiURL}api/users/token/${info.localId}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log('this is the data from the api:', data)
+          // console.log('this is the data from the api:', data)
           console.log(Array.isArray(data))
-          data[0] ? console.log('this is the token:', data[0].token) : console.log('no data')
+          // data[0] ? console.log('this is the token:', data[0].token) : console.log('no data')
           if(data[0] && data[0].token === info.localId){
             return navigate('/myposts')
           }else{
@@ -53,7 +53,6 @@ function Login() {
             .then(() => navigate('/'))
           }
         })
-        // navigate("/")
       })
     }
 
@@ -76,13 +75,5 @@ function Login() {
 
   )
 }
-{/* <p>Don't have a google account? Create one <a href='https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp'>here</a></p> */}
-
-//<a href='https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp'> click here </a>
-//<div>This website uses google authentication for it's users. In order to create an account</div>
 
 export default Login; 
-
-
-
-// 

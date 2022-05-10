@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-//add useNavigate and place in the onsubmit method
+import React, { useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useContext} from 'react'
 import { AuthContext, apiURL } from "../App.js";
@@ -7,14 +6,7 @@ import { AuthContext, apiURL } from "../App.js";
 
 
 function MakePost() {
- 
-  //You are supposed to submit a post and the user_id for the post would be the id in users 
-  //where the token from users table that matches localStorage.getItem('token')
-  //user_id will be determined in the request body
-  //meaning when you build it, the user_id must be pulled from a fetch which gives back 
 
-  //grab all from users where the token in my storage matches the token in the user's table
-  //make a special route for this
   let navigate = useNavigate()
   const context = useContext(AuthContext);
 
@@ -22,13 +14,7 @@ function MakePost() {
     if(!context.isAuth){
       navigate('/login')
     }
-
   }, [])
-
-
-
-
-
   
 
   const handleSubmit = (event) => {
@@ -70,7 +56,6 @@ function MakePost() {
     {""}
     <div className='postDetails'>
       <h1>Make a Rant!</h1>
-      {/* Here is where you create a form, then on submit, send a post request to the database */}
       <form onSubmit={handleSubmit}className='popUp'>
         <div className='formGroup' >
           <label> Title: </label>
